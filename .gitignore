@@ -1,0 +1,4 @@
+.vs
+Build
+*.dll
+*vcxproj.user
