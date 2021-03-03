@@ -10,7 +10,11 @@
 
 using namespace UPC;
 
+#ifdef _WIN64
 constexpr auto ORIG_DLL = L"uplay_r2_loader64_o.dll";
+#else
+constexpr auto ORIG_DLL = L"uplay_r2_loader_o.dll";
+#endif
 
 HMODULE originalDLL = nullptr;
 vector<Product> products;
