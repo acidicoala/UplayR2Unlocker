@@ -1,4 +1,5 @@
 #pragma once
+#include <codeanalysis\warnings.h>
 
 #include <string>
 #include <filesystem>
@@ -18,3 +19,5 @@
 #include <nlohmann/json.hpp>
 
 #pragma warning(pop)
+
+#include "LinkerExports64.h"

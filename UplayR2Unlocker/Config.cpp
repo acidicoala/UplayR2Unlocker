@@ -6,7 +6,7 @@ using nlohmann::json;
 // Source: https://stackoverflow.com/a/54394658/3805929
 #define GET(j, key) this->key = j[#key].get<decltype(key)>()
 
-constexpr auto CONFIG_PATH = "Config.json";
+constexpr auto CONFIG_PATH = "UplayR2Unlocker.json";
 
 Config::Config()
 {

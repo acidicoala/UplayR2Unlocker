@@ -95,7 +95,7 @@ std::vector<std::string> overrideFunctions{
 enum class Architecture { Win32, Win64 };
 void generateHeader(std::wstring dllPath, Architecture arch, std::vector<std::string> functionNames)
 {
-	auto exportLinkDLL = arch == Architecture::Win64 ? "uplay_r264_o" : "uplay_r2_o";
+	auto exportLinkDLL = arch == Architecture::Win64 ? "uplay_r2_loader64_o" : "uplay_r2_loader_o";
 	auto headerName = arch == Architecture::Win64 ? L"LinkerExports64.h" : L"LinkerExports32.h";
 
 	// Generate header path

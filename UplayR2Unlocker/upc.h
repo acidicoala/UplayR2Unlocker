@@ -3,27 +3,36 @@
 namespace UPC
 {
 
+
+enum class ProductType
+{
+	App = 1,
+	DLC = 2,
+	Item = 4
+};
+
 struct Product
 {
-	Product(uint32_t appid, uint32_t type)
+	Product(uint32_t appid, ProductType type)
 	{
 		this->appid = appid;
 		this->type = type;
-		this->mystery = type == 4 ? 4 : 1;
+		this->mystery1 = type == ProductType::Item ? 4 : 1;
+		this->mystery2 = type == ProductType::Item ? 1 : 3;
 	}
 
 	uint32_t appid;
-	uint32_t type; //1 = app, 2 = dlc, 4 = ???
-	uint32_t mystery;
+	ProductType type;
+	uint32_t mystery1;
 	uint32_t always_3 = 3; // always 3
 	uint32_t always_0 = 0; // always zero
-	uint32_t always_1 = 1; // always 1
+	uint32_t mystery2;
 };
 
 struct ProductList
 {
 	uint32_t length = 0;
-	uint32_t padding = 0; // What is this?
+	uint32_t padding = 0; // What is this? offset?
 	Product** data = NULL; // Array of pointers
 };
 
@@ -36,7 +45,6 @@ struct CallbackContainer
 	void* callbackData = NULL;
 	ProductList* legitProductList = NULL;
 };
-
 
 void init();
 void shutdown();

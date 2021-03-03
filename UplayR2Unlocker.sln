@@ -10,9 +10,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{277C349C-7622-4C2B-948F-CF941ECDC566}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
-		Config.json = Config.json
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
+		UplayR2Unlocker.json = UplayR2Unlocker.json
 	EndProjectSection
 EndProject
 Global
