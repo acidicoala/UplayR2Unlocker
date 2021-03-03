@@ -5,6 +5,9 @@
 #include <vector>
 #include <fstream>
 
+#pragma warning(push) // Disable 3rd party library warnings
+#pragma warning(disable: ALL_CODE_ANALYSIS_WARNINGS)
+
 #define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
 #include <windows.h> // Windows Header Files
 
@@ -14,3 +17,4 @@
 
 #include <nlohmann/json.hpp>
 
+#pragma warning(pop)

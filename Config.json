@@ -1,6 +1,6 @@
 {
 	"log_level": "debug",
-	"lang": "en-US",
+	"lang": "default",
 	"dlcs": [
 		5490,
 		5491,

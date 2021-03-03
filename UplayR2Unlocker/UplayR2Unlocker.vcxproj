@@ -192,6 +192,7 @@
     <ClInclude Include="LinkerExports64.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="upc.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
@@ -208,7 +209,7 @@
     <ClCompile Include="upc.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config.json" />
+    <ResourceCompile Include="UplayR2Unlocker.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -39,21 +39,24 @@
     <ClInclude Include="LinkerExports64.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
       <UniqueIdentifier>{31a2d314-7a27-4e21-b152-dd80c090a737}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{da59499d-f08e-4553-91e9-ab73af6a8a84}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{67981789-6dc9-45fd-bb00-60a42673a1bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{40e19512-7094-4b15-ac61-702ca0d7b85b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config.json">
+    <ResourceCompile Include="UplayR2Unlocker.rc">
       <Filter>Resource Files</Filter>
-    </None>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

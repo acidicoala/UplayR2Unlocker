@@ -6,7 +6,7 @@
 #define EXPORT extern "C" _declspec(dllexport)
 
 #define GET_PROXY_FUNC(FUNC) \
-	static auto proxyFunc = FnCast(GetProcAddress(originalDLL, #FUNC), FUNC );
+	static auto proxyFunc = FnCast(GetProcAddress(originalDLL, #FUNC), FUNC);
 
 using namespace UPC;
 
@@ -65,13 +65,15 @@ void ProductListGetCallback(unsigned long arg1, void* data)
 
 	auto callbackContainer = (CallbackContainer*) data;
 
+	logger->debug("Legit product list:");
+
 	auto list = callbackContainer->legitProductList;
 	for(uint32_t i = 0; i < list->length; i++)
 	{
 		auto product = *list->data[i];
 
 		logger->debug(
-			"App ID: {}, Type: {}, Mystery: {}, Always 0: {}, Always 1: {}, Always 3: {}",
+			"\tApp ID: {}, Type: {}, Mystery: {}, Always 0: {}, Always 1: {}, Always 3: {}",
 			product.appid, product.type, product.mystery, product.always_0, product.always_1, product.always_3
 		);
 	}
@@ -102,9 +104,8 @@ EXPORT int UPC_ProductListGet(void* context, char* inOptUserIdUtf8, unsigned int
 	};
 
 	GET_PROXY_FUNC(UPC_ProductListGet);
-
 	return proxyFunc(context, inOptUserIdUtf8, inFilter, &callbackContainer->legitProductList, ProductListGetCallback, callbackContainer);
-	return 1 << 4;
+	//return 1 << 4;
 }
 
 EXPORT int UPC_ProductListFree(void* context, ProductList* inProductList)
