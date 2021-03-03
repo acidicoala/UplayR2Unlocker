@@ -71,7 +71,7 @@ BEGIN
             VALUE "FileDescription", "Legit DLC Unlocker for Ubisoft Connect"
             VALUE "FileVersion", "1.0.0.0"
             VALUE "InternalName", "UplayR2U.dll"
-            VALUE "LegalCopyright", "Fuck the copyright >:D"
+            VALUE "LegalCopyright", "Credit to Mr_Goldberg"
             VALUE "OriginalFilename", "uplay_r264.dll"
             VALUE "ProductName", "Uplay R2 Unlocker"
             VALUE "ProductVersion", "1.0.0.0"

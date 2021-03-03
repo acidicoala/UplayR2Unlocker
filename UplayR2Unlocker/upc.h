@@ -41,6 +41,7 @@ typedef void (*UplayCallback)(unsigned long, void*);
 
 struct CallbackContainer
 {
+	void* context = NULL;
 	UplayCallback originalCallback = NULL;
 	void* callbackData = NULL;
 	ProductList* legitProductList = NULL;

@@ -74,23 +74,23 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Build\$(Platform)\$(Configuration)\</IntDir>
-    <TargetName>uplay_r2</TargetName>
+    <TargetName>uplay_r2_loader</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Build\$(Platform)\$(Configuration)\</IntDir>
-    <TargetName>uplay_r2</TargetName>
+    <TargetName>uplay_r2_loader</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>uplay_r264</TargetName>
+    <TargetName>uplay_r2_loader64</TargetName>
     <IntDir>$(ProjectDir)Build\$(Platform)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>uplay_r264</TargetName>
+    <TargetName>uplay_r2_loader64</TargetName>
     <IntDir>$(ProjectDir)Build\$(Platform)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
@@ -147,6 +147,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
     </Link>
+    <PostBuildEvent>
+      <Command>powershell Compress-Archive -Update ^
+-Path "$(TargetPath)","$(SolutionDir)UplayR2Unlocker.json" ^
+-DestinationPath "$(SolutionDir)Build\UplayR2Unlocker.zip"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -185,6 +190,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
     </Link>
+    <PostBuildEvent>
+      <Command>powershell Compress-Archive -Update ^
+-Path "$(TargetPath)","$(SolutionDir)UplayR2Unlocker.json" ^
+-DestinationPath "$(SolutionDir)Build\UplayR2Unlocker.zip"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Config.h" />

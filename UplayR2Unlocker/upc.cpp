@@ -73,6 +73,23 @@ EXPORT int UPC_Init(unsigned version, int appID)
 	return proxyFunc(version, appID);
 }
 
+EXPORT int UPC_ProductListFree(void* context, ProductList* inProductList)
+{
+	logger->debug(__func__);
+	if(inProductList)
+	{
+		for(unsigned i = 0; i < inProductList->length; ++i)
+		{
+			delete inProductList->data[i];
+		}
+
+		delete[] inProductList->data;
+	}
+
+	delete inProductList;
+	return 0;
+}
+
 void ProductListGetCallback(unsigned long arg1, void* data)
 {
 	logger->debug("{} -> arg1: {}, data: {}", arg1, data);
@@ -105,7 +122,9 @@ void ProductListGetCallback(unsigned long arg1, void* data)
 		logger->warn("\tApp ID: {}, Type: {}", missingProduct->appid, productTypeToString(missingProduct->type));
 	}
 
-	// TODO: delete product list. Tiny memory leak, no big deal.
+	// Free the legit product list
+	GET_PROXY_FUNC(UPC_ProductListFree);
+	proxyFunc(callbackContainer->context, callbackContainer->legitProductList);
 
 	callbackContainer->originalCallback(arg1, callbackContainer->callbackData);
 
@@ -115,7 +134,6 @@ void ProductListGetCallback(unsigned long arg1, void* data)
 EXPORT int UPC_ProductListGet(void* context, char* inOptUserIdUtf8, unsigned int inFilter, ProductList** outProductList, UplayCallback inCallback, void* inCallbackData) //CB: 1 argument, 0 val
 {
 	logger->debug("{}", __func__);
-	logger->debug(L"\tuserID: {}", wstring((LPWCH) inOptUserIdUtf8));
 
 	auto productList = new ProductList();
 	productList->data = new Product * [products.size()];
@@ -128,30 +146,13 @@ EXPORT int UPC_ProductListGet(void* context, char* inOptUserIdUtf8, unsigned int
 	*outProductList = productList;
 
 	auto callbackContainer = new CallbackContainer{
+		context,
 		inCallback,
 		inCallbackData
 	};
 
 	GET_PROXY_FUNC(UPC_ProductListGet);
 	return proxyFunc(context, inOptUserIdUtf8, inFilter, &callbackContainer->legitProductList, ProductListGetCallback, callbackContainer);
-	//return 1 << 4;
-}
-
-EXPORT int UPC_ProductListFree(void* context, ProductList* inProductList)
-{
-	logger->debug(__func__);
-	if(inProductList)
-	{
-		for(unsigned i = 0; i < inProductList->length; ++i)
-		{
-			delete inProductList->data[i];
-		}
-
-		delete[] inProductList->data;
-	}
-
-	delete inProductList;
-	return 0;
 }
 
 EXPORT const char* UPC_InstallLanguageGet(void* context)
