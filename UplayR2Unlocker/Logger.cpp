@@ -4,7 +4,7 @@
 
 constexpr auto LOG_PATH = "UplayR2Unlocker.log";
 
-shared_ptr<spdlog::logger> logger = spdlog::stdout_color_mt("default"); //spdlog::basic_logger_mt("default", LOG_PATH, true);
+shared_ptr<spdlog::logger> logger = spdlog::null_logger_mt("null");
 
 void Logger::init()
 {
