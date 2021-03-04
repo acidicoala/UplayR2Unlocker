@@ -24,8 +24,8 @@ struct Product
 	uint32_t appid;
 	ProductType type;
 	uint32_t mystery1;
-	uint32_t always_3 = 3; // always 3
-	uint32_t always_0 = 0; // always zero
+	uint32_t always_3 = 3;
+	uint32_t always_0 = 0;
 	uint32_t mystery2;
 };
 

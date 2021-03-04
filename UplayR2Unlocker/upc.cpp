@@ -109,7 +109,7 @@ void ProductListGetCallback(unsigned long arg1, void* data)
 		auto product = list->data[i];
 
 		logger->debug(
-			"\tApp ID: {}, Type: {}, Myster 1: {}, Mystery 2: {}, Always 0: {}, Always 3: {}",
+			"\tApp ID: {}, Type: {}, Mystery1: {}, Mystery2: {}, Always0: {}, Always3: {}",
 			product->appid, product->type, product->mystery1, product->mystery2, product->always_0, product->always_3
 		);
 
