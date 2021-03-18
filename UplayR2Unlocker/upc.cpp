@@ -46,11 +46,11 @@ string productTypeToString(ProductType type)
 {
 	switch(type)
 	{
-		case UPC::ProductType::App:
+		case ProductType::App:
 			return "App";
-		case UPC::ProductType::DLC:
+		case ProductType::DLC:
 			return "DLC";
-		case UPC::ProductType::Item:
+		case ProductType::Item:
 			return "Item";
 		default:
 			return "Unexpected Type";

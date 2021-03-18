@@ -18,6 +18,6 @@ This software is licensed under [Zero Clause BSD] license, terms of which are av
 
 [Official forum thread]: https://cs.rin.ru/forum/viewtopic.php?f=10&t=111874
 
-[Zero Clause BSD]: https://en.wikipedia.org/wiki/BSD_licenses#0-clause_license_(%22Zero_Clause_BSD%22)
+[Zero Clause BSD]: https://choosealicense.com/licenses/0bsd/
 
 [LICENSE.txt]: ./LICENSE.txt
