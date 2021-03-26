@@ -149,7 +149,7 @@
     </Link>
     <PostBuildEvent>
       <Command>powershell Compress-Archive -Update ^
--Path "$(TargetPath)","$(SolutionDir)UplayR2Unlocker.json" ^
+-Path "$(TargetPath)","$(SolutionDir)UplayR2Unlocker.jsonc" ^
 -DestinationPath "$(SolutionDir)Build\UplayR2Unlocker.zip"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -192,7 +192,7 @@
     </Link>
     <PostBuildEvent>
       <Command>powershell Compress-Archive -Update ^
--Path "$(TargetPath)","$(SolutionDir)UplayR2Unlocker.json" ^
+-Path "$(TargetPath)","$(SolutionDir)UplayR2Unlocker.jsonc" ^
 -DestinationPath "$(SolutionDir)Build\UplayR2Unlocker.zip"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

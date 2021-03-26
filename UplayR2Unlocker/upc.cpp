@@ -142,7 +142,7 @@ EXPORT int UPC_ProductListGet(void* context, char* inOptUserIdUtf8, unsigned int
 
 	auto productList = new ProductList();
 	productList->data = new Product * [products.size()];
-	for(int i = 0; i < products.size(); i++)
+	for(size_t i = 0; i < products.size(); i++)
 	{
 		productList->data[i] = new Product(products.at(i));
 	}
