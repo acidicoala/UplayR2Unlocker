@@ -5,5 +5,5 @@ extern shared_ptr<spdlog::logger> logger;
 
 namespace Logger
 {
-void init();
+void init(HMODULE hModule);
 }

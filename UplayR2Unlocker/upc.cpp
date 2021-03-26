@@ -19,9 +19,10 @@ constexpr auto ORIG_DLL = L"uplay_r2_loader_o.dll";
 HMODULE originalDLL = nullptr;
 vector<Product> products;
 
-void UPC::init()
+void UPC::init(HMODULE hModule)
 {
-	Logger::init();
+	Config::init(hModule);
+	Logger::init(hModule);
 	logger->info("Uplay R2 Unlocker v{}", VERSION);
 
 	originalDLL = LoadLibrary(ORIG_DLL);
@@ -62,12 +63,12 @@ EXPORT int UPC_Init(unsigned version, int appID)
 	logger->info("{} -> version: {}, appid: {}", __func__, version, appID);
 
 	products.push_back(Product(appID, ProductType::App));
-	for(auto& dlc : config.dlcs)
+	for(auto& dlc : config->dlcs)
 	{
 		products.push_back(Product(dlc, ProductType::DLC));
 	}
 
-	for(auto& item : config.items)
+	for(auto& item : config->items)
 	{
 		products.push_back(Product(item, ProductType::Item));
 	}
@@ -113,7 +114,7 @@ void ProductListGetCallback(unsigned long arg1, void* data)
 			product->appid, product->type, product->mystery1, product->mystery2, product->always_0, product->always_3
 		);
 
-		if(!(vectorContains(config.dlcs, product->appid) || vectorContains(config.items, product->appid)))
+		if(!(vectorContains(config->dlcs, product->appid) || vectorContains(config->items, product->appid)))
 			if(product->type != ProductType::App)
 				missingProducts.push_back(product);
 	}
@@ -161,7 +162,7 @@ EXPORT int UPC_ProductListGet(void* context, char* inOptUserIdUtf8, unsigned int
 
 EXPORT const char* UPC_InstallLanguageGet(void* context)
 {
-	if(config.lang == "default")
+	if(config->lang == "default")
 	{
 		GET_PROXY_FUNC(UPC_InstallLanguageGet);
 		auto result = proxyFunc(context);
@@ -170,6 +171,6 @@ EXPORT const char* UPC_InstallLanguageGet(void* context)
 	}
 	else
 	{
-		return config.lang.c_str();
+		return config->lang.c_str();
 	}
 }

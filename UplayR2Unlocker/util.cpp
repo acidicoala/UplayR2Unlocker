@@ -1,12 +1,6 @@
 #include "pch.h"
 #include "util.h"
-
-wstring getModulePath(HMODULE hModule)
-{
-	WCHAR buffer[MAX_PATH];
-	GetModuleFileName(hModule, buffer, MAX_PATH);
-	return wstring(buffer);
-}
+#include "Logger.h"
 
 bool vectorContains(vector<int> numbers, uint32_t number)
 {
@@ -16,4 +10,15 @@ bool vectorContains(vector<int> numbers, uint32_t number)
 			return true;
 	}
 	return false;
+}
+
+path getDllDir(HMODULE hModule)
+{
+	TCHAR name[MAX_PATH];
+	auto result = GetModuleFileName(hModule, name, MAX_PATH);
+
+	if(result == NULL)
+		logger->error("Failed to get dll path. Error code: {}", GetLastError());
+
+	return path(name).parent_path();
 }

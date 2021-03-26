@@ -47,7 +47,7 @@ struct CallbackContainer
 	ProductList* legitProductList = NULL;
 };
 
-void init();
+void init(HMODULE hModule);
 void shutdown();
 
 }
