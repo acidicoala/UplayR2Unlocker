@@ -45,7 +45,7 @@
     <ClInclude Include="resource.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="LinkerExports.h">
+    <ClInclude Include="LinkerExports32.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

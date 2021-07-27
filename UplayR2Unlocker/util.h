@@ -8,7 +8,7 @@ using std::shared_ptr;
 using std::filesystem::absolute;
 using std::filesystem::path;
 
-constexpr auto VERSION = "1.1.0";
+constexpr auto VERSION = "2.0.0";
 
 // Source: Polyhook 2
 template<typename T>

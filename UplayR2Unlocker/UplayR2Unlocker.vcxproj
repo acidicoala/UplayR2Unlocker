@@ -74,23 +74,23 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Build\$(Platform)\$(Configuration)\</IntDir>
-    <TargetName>uplay_r2_loader</TargetName>
+    <TargetName>upc_r2_loader</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Build\$(Platform)\$(Configuration)\</IntDir>
-    <TargetName>uplay_r2_loader</TargetName>
+    <TargetName>upc_r2_loader</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>uplay_r2_loader64</TargetName>
+    <TargetName>upc_r2_loader64</TargetName>
     <IntDir>$(ProjectDir)Build\$(Platform)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>uplay_r2_loader64</TargetName>
+    <TargetName>upc_r2_loader64</TargetName>
     <IntDir>$(ProjectDir)Build\$(Platform)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
@@ -199,7 +199,7 @@
   <ItemGroup>
     <ClInclude Include="Config.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="LinkerExports.h" />
+    <ClInclude Include="LinkerExports32.h" />
     <ClInclude Include="LinkerExports64.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="pch.h" />

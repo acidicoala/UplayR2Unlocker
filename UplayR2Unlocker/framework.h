@@ -24,6 +24,6 @@
 #ifdef _WIN64
 #include "LinkerExports64.h"
 #else
-#include "LinkerExports.h"
+#include "LinkerExports32.h"
 #endif
 
