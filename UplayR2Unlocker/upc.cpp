@@ -55,11 +55,11 @@ EXPORT int UPC_Init(unsigned version, int appID) {
 	logger->info("{} -> version: {}, appid: {}", __func__, version, appID);
 
 	products.emplace_back(Product(appID, ProductType::App));
-	for (auto& dlc : config->dlcs) {
+	for (const auto& dlc : config->dlcs) {
 		products.emplace_back(Product(dlc, ProductType::DLC));
 	}
 
-	for (auto& item : config->items) {
+	for (const auto& item : config->items) {
 		products.emplace_back(Product(item, ProductType::Item));
 	}
 
@@ -133,7 +133,7 @@ EXPORT int UPC_ProductListGet(void* context, char* inOptUserIdUtf8, unsigned int
 	productList->length = (uint32_t)products.size();
 	*outProductList = productList;
 
-	auto callbackContainer = new CallbackContainer{
+	const auto callbackContainer = new CallbackContainer{
 		context,
 		inCallback,
 		inCallbackData

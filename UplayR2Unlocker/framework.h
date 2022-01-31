@@ -1,5 +1,5 @@
 #pragma once
-#include <codeanalysis\warnings.h>
+#include <codeanalysis/warnings.h>
 
 #include <string>
 #include <filesystem>
@@ -10,7 +10,7 @@
 #pragma warning(disable: ALL_CODE_ANALYSIS_WARNINGS)
 
 #define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
-#include <windows.h> // Windows Header Files
+#include <Windows.h> // Windows Header Files
 
 #define SPDLOG_WCHAR_TO_UTF8_SUPPORT
 #include <spdlog/spdlog.h>
