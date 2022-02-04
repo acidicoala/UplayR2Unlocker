@@ -1,5 +1,1 @@
-.vs
-Build
-*.dll
-*vcxproj.user
-*.aps
+/build

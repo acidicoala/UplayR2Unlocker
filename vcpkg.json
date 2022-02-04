@@ -1,0 +1,10 @@
+{
+  "name": "uplay-r2-unlocker",
+  "version": "0.0.0",
+  "license": "0BSD",
+  "dependencies": [
+    "spdlog",
+    "nlohmann-json",
+    "cpr"
+  ]
+}
