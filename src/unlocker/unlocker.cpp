@@ -8,6 +8,7 @@
 #include "koalabox/win_util/win_util.hpp"
 
 #include <cpr/cpr.h>
+#include <regex>
 
 using namespace koalabox;
 using namespace unlocker;
@@ -71,22 +72,29 @@ void unlocker::add_fetched_products(Map<ProductID, Product>& products) {
         try {
             const auto json = nlohmann::json::parse(res.text, nullptr, true, true);
 
-            const auto game = json[std::to_string(app_id)];
+            // iterate over keys to find the one that matches the game
 
-            const String name(game["name"]);
+            for (const auto&[key, game]: json.items()) {
+                // Regex matching enables us to specify multiple IDs for the same game
+                if (std::regex_match(std::to_string(app_id), std::regex(key))) {
+                    const String name(game["name"]);
 
-            logger::info("Fetched products for game: '{}'", name);
+                    logger::info("Fetched products for game: '{}'", name);
 
-            for (const ProductID dlc: game["dlcs"]) {
-                logger::debug("  ID: {}, Type: DLC", dlc);
+                    for (const ProductID dlc: game["dlcs"]) {
+                        logger::debug("  ID: {}, Type: DLC", dlc);
 
-                products.insert({ dlc, Product(dlc, ProductType::DLC) });
-            }
+                        products.insert({ dlc, Product(dlc, ProductType::DLC) });
+                    }
 
-            for (const ProductID item: game["items"]) {
-                logger::debug("  ID: {}, Type: Item", item);
+                    for (const ProductID item: game["items"]) {
+                        logger::debug("  ID: {}, Type: Item", item);
 
-                products.insert({ item, Product(item, ProductType::Item) });
+                        products.insert({ item, Product(item, ProductType::Item) });
+                    }
+
+                    break;
+                }
             }
         } catch (const std::exception& ex) {
             logger::error("Failed to parse fetched products: {}", ex.what());
@@ -99,7 +107,9 @@ void unlocker::add_fetched_products(Map<ProductID, Product>& products) {
     }
 }
 
-void unlocker::add_legit_products(Map<ProductID, Product>& products, const ProductList* legit_product_list) {
+void unlocker::add_legit_products(
+    Map<ProductID, Product>& products, const ProductList* legit_product_list
+) {
     logger::debug("Original product list contains {} elements:", legit_product_list->length);
 
     Vector<Product*> missing_products;
