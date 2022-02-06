@@ -1,6 +1,9 @@
 #pragma once
 
 #include "koalabox/koalabox.hpp"
+#include "config/config.hpp"
+
+#define DLL_EXPORT(TYPE) extern "C" _declspec(dllexport) TYPE
 
 namespace upc {
     using namespace koalabox;
@@ -47,5 +50,21 @@ namespace upc {
         ProductList* legit_product_list = nullptr;
         ProductList** out_product_list = nullptr;
     };
+
+
+    DLL_EXPORT(int) UPC_Init(unsigned int version, config::ProductID app_id);
+
+    DLL_EXPORT(LPCSTR) UPC_InstallLanguageGet(void* context);
+
+    DLL_EXPORT(int) UPC_ProductListFree(void* context, ProductList* inProductList);
+
+    DLL_EXPORT(int) UPC_ProductListGet(
+        void* context,
+        const char* inOptUserIdUtf8,
+        unsigned int inFilter,
+        ProductList** outProductList,
+        UplayCallback inCallback,
+        void* inCallbackData
+    );
 
 }

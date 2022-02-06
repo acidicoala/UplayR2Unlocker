@@ -1,6 +1,7 @@
 #include "unlocker.hpp"
 #include "upc/upc.hpp"
 #include "config/config.hpp"
+#include "hooker/hooker.hpp"
 #include "build_config.h"
 
 #include "koalabox/logger/logger.hpp"
@@ -19,6 +20,8 @@ HMODULE unlocker::original_module = nullptr;
 
 ProductID unlocker::app_id = 0;
 
+bool unlocker::is_hooker_mode = false;
+
 void unlocker::init(HMODULE self_module) {
     DisableThreadLibraryCalls(self_module);
 
@@ -34,15 +37,51 @@ void unlocker::init(HMODULE self_module) {
 
     logger::info("🐨 {} 🔓 v{}", PROJECT_NAME, PROJECT_VERSION);
 
-    const auto original_module_path = util::get_module_dir(self_module) / ORIG_DLL".dll";
-    original_module = win_util::load_library(original_module_path);
-    logger::info("📚 Loaded original library from: '{}'", original_module_path.string());
+    // Determine the unlocker mode to use (proxy vs hooker)
+
+    const auto module_path = win_util::get_module_file_name(self_module);
+
+    const auto self_name = Path(module_path).filename().string();
+
+    is_hooker_mode = not util::strings_are_equal(self_name, ORIG_DLL".dll");
+
+    if (is_hooker_mode) {
+        logger::info("Detected hooker mode");
+
+        // First try loading upc_r2_loader
+        auto loader_dll_name = String("upc_r2_loader") + (util::is_64_bit() ? "64" : "");
+        original_module = GetModuleHandleA(loader_dll_name.c_str());
+
+        // If it fails, try uplay_r2_loader
+        if (original_module == nullptr) {
+            loader_dll_name = String("uplay_r2_loader") + (util::is_64_bit() ? "64" : "");
+            original_module = GetModuleHandleA(loader_dll_name.c_str());
+        }
+
+        // If both fail, then we fail too
+        if (original_module == nullptr) {
+            util::panic("unlocker::init", "Failed to obtain handle of *r2_loader.dll");
+        }
+
+        hooker::init();
+    } else {
+        logger::info("Detected proxy mode");
+
+        const auto original_module_path = util::get_module_dir(self_module) / ORIG_DLL"_o.dll";
+        original_module = win_util::load_library(original_module_path);
+
+        logger::info("📚 Loaded original library from: '{}'", original_module_path.string());
+    }
 
     logger::info("🚀 Initialization complete");
 }
 
 void unlocker::shutdown() {
-    win_util::free_library(original_module);
+    if (is_hooker_mode) {
+        hooker::shutdown();
+    } else {
+        win_util::free_library(original_module);
+    }
 
     logger::info("💀 Shutdown complete");
 }

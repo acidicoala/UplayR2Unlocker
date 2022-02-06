@@ -43,9 +43,9 @@ set(VERSION_SUFFIX $ENV{VERSION_SUFFIX})
 set(GEN_DIR ${PROJECT_BINARY_DIR}/generated)
 
 if (IS_64_BIT)
-    set(ORIG_DLL upc_r2_loader64_o)
+    set(ORIG_DLL upc_r2_loader64)
 else ()
-    set(ORIG_DLL upc_r2_loader_o)
+    set(ORIG_DLL upc_r2_loader)
 endif ()
 
 # Build the exports generator executable
@@ -57,11 +57,11 @@ set(LINKER_EXPORTS ${GEN_DIR}/linker_exports.h)
 
 if (IS_64_BIT)
     set(GENERATOR_DLL_INPUT "${RES_DIR}/upc_r2_loader64.dll")
-    set(FORWARDED_DLL upc_r2_loader64_o.dll)
 else ()
     set(GENERATOR_DLL_INPUT "${RES_DIR}/uplay_r2.dll")
-    set(FORWARDED_DLL upc_r2_loader_o.dll)
 endif ()
+
+set(FORWARDED_DLL "${ORIG_DLL}_o")
 
 add_custom_command(
         OUTPUT ${LINKER_EXPORTS}
@@ -98,6 +98,7 @@ add_library(
         ${SRC_DIR}/unlocker/unlocker.cpp
         ${SRC_DIR}/upc/upc.cpp
         ${SRC_DIR}/config/config.cpp
+        ${SRC_DIR}/hooker/hooker.cpp
 
         ## Dependencies
         ${KOALABOX_SRC_DIR}/koalabox/koalabox.cpp
@@ -142,10 +143,12 @@ target_precompile_headers(
 find_package(spdlog CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(cpr CONFIG REQUIRED)
+find_package(PolyHook_2 CONFIG REQUIRED)
 
 target_link_libraries(
         ${CMAKE_PROJECT_NAME} PRIVATE
         spdlog::spdlog
         nlohmann_json
         cpr::cpr
+        PolyHook_2::PolyHook_2
 )

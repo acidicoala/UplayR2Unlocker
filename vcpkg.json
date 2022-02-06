@@ -5,6 +5,7 @@
   "dependencies": [
     "spdlog",
     "nlohmann-json",
-    "cpr"
+    "cpr",
+    "polyhook2"
   ]
 }

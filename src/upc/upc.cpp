@@ -2,10 +2,13 @@
 #include "koalabox/logger/logger.hpp"
 #include "koalabox/util/util.hpp"
 #include "unlocker/unlocker.hpp"
+#include "hooker/hooker.hpp"
 
-#define DLL_EXPORT(TYPE) extern "C" _declspec(dllexport) TYPE
+#include <polyhook2/Detour/ADetour.hpp>
 
-#define GET_ORIG_FUNC(FUNC) koalabox::util::get_procedure(unlocker::original_module, #FUNC, FUNC)
+#define GET_FUNC_AS_PROXY(FUNC) util::get_procedure(unlocker::original_module, #FUNC, upc::FUNC)
+#define GET_FUNC_AS_HOOKER(FUNC) PLH::FnCast(hooker::address_book.FUNC, upc::FUNC)
+#define GET_ORIG_FUNC(FUNC) unlocker::is_hooker_mode ? GET_FUNC_AS_HOOKER(FUNC):GET_FUNC_AS_PROXY(FUNC)
 
 using namespace upc;
 using namespace koalabox;
@@ -18,9 +21,17 @@ DLL_EXPORT(int) UPC_Init(unsigned int version, ProductID app_id) {
 
     static const auto UPC_Init_o = GET_ORIG_FUNC(UPC_Init);
 
-    return UPC_Init_o(version, app_id);
-}
+    const auto result = UPC_Init_o(version, app_id);
 
+    logger::debug("UPC_Init result: {}", result);
+
+    // Store R2 DLL is loaded at this point, so we can hook its functions now
+    if (unlocker::is_hooker_mode) {
+        hooker::post_init();
+    }
+
+    return result;
+}
 
 ProductList* create_new_product_list(const Vector<Product>& filtered_products) {
     const auto product_list = new ProductList{

@@ -3,7 +3,7 @@
 #include "config/config.hpp"
 #include "upc/upc.hpp"
 
-namespace unlocker{
+namespace unlocker {
     using namespace config;
     using namespace upc;
 
@@ -13,6 +13,8 @@ namespace unlocker{
 
     extern config::ProductID app_id;
 
+    extern bool is_hooker_mode;
+
     void init(HMODULE module);
 
     void shutdown();
@@ -21,8 +23,12 @@ namespace unlocker{
 
     void add_fetched_products(Map<ProductID, Product>& products);
 
-    void add_legit_products(Map<ProductID, Product>& products, const ProductList* legit_product_list);
+    void add_legit_products(
+        Map<ProductID, Product>& products,
+        const ProductList* legit_product_list
+    );
 
     Vector<Product> get_filtered_products(Map<ProductID, Product>& products);
+
 
 }

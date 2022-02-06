@@ -16,7 +16,8 @@ namespace config {
 
             return json.get<Config>();
         } catch (const std::exception& ex) {
-            util::error_box(__func__, fmt::format("Failed to parse config file: {}", ex.what()));
+            const auto message = fmt::format("Failed to parse config file: {}", ex.what());
+            util::error_box("config::read", message);
             exit(::GetLastError()); // NOLINT(cppcoreguidelines-narrowing-conversions)
         }
     }
