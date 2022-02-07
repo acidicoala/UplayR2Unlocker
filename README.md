@@ -15,6 +15,7 @@ This project makes use of the following open source projects:
 - [spdlog](https://github.com/gabime/spdlog)
 - [JSON for Modern C++](https://github.com/nlohmann/json)
 - [C++ Requests](https://github.com/libcpr/cpr)
+- [PolyHook 2.0](https://github.com/stevemk14ebr/PolyHook_2_0)
 
 ### 📄 License
 This software is licensed under [Zero Clause BSD] license, terms of which are available in [LICENSE.txt]

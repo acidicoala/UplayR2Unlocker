@@ -1,11 +1,5 @@
 name: Build Project
-on:
-  push:
-    paths-ignore:
-      - '.idea/**'
-      - 'README.md'
-      - 'build.ps1'
-      - '.editorconfig'
+on: push
 
 jobs:
   build-project:

@@ -10,6 +10,7 @@
 
 #include <cpr/cpr.h>
 #include <regex>
+#include <thread>
 
 using namespace koalabox;
 using namespace unlocker;
@@ -48,22 +49,44 @@ void unlocker::init(HMODULE self_module) {
     if (is_hooker_mode) {
         logger::info("Detected hooker mode");
 
-        // First try loading upc_r2_loader
-        auto loader_dll_name = String("upc_r2_loader") + (util::is_64_bit() ? "64" : "");
-        original_module = GetModuleHandleA(loader_dll_name.c_str());
+        std::thread init([]() {
+            String loader_dll_name;
 
-        // If it fails, try uplay_r2_loader
-        if (original_module == nullptr) {
-            loader_dll_name = String("uplay_r2_loader") + (util::is_64_bit() ? "64" : "");
-            original_module = GetModuleHandleA(loader_dll_name.c_str());
-        }
+            for (unsigned attempt_number = 0; attempt_number < 1000; attempt_number++) {
+                // First try loading upc_r2_loader
+                loader_dll_name = String("upc_r2_loader") + (util::is_64_bit() ? "64" : "");
+                original_module = GetModuleHandleA(loader_dll_name.c_str());
 
-        // If both fail, then we fail too
-        if (original_module == nullptr) {
-            util::panic("unlocker::init", "Failed to obtain handle of *r2_loader.dll");
-        }
+                // If we succeed, we break the loop
+                if (original_module != nullptr) {
+                    break;
+                }
 
-        hooker::init();
+                // If we fail, try uplay_r2_loader
+                loader_dll_name = String("uplay_r2_loader") + (util::is_64_bit() ? "64" : "");
+                original_module = GetModuleHandleA(loader_dll_name.c_str());
+
+                // If we succeed, we break the loop
+                if (original_module != nullptr) {
+                    break;
+                }
+
+                // If both fail, we wait a bit
+                Sleep(5);
+            }
+
+            // If after so many attempts we didn't succeed, then we crash
+            if (original_module == nullptr) {
+                util::panic("unlocker::init", "Failed to obtain a handle of *r2_loader.dll");
+            } else {
+                hooker::init();
+
+                logger::info("📚 Obtained a handle for loader module: '{}'", loader_dll_name);
+            }
+        });
+        init.detach();
+
+
     } else {
         logger::info("Detected proxy mode");
 
