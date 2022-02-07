@@ -38,7 +38,10 @@ AddressBook hooker::address_book = {}; // NOLINT(cert-err58-cpp)
 Vector<Detour*> hooks; // NOLINT(cert-err58-cpp)
 
 void hook(
-    HMODULE module, const char* function_name, char* callback_function, uint64_t* trampoline_address
+    HMODULE module,
+    const char* function_name,
+    char* callback_function,
+    uint64_t* trampoline_address
 ) {
     logger::info("Hooking '{}'", function_name);
 

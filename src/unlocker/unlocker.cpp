@@ -84,8 +84,8 @@ void unlocker::init(HMODULE self_module) {
                 logger::info("📚 Obtained a handle for loader module: '{}'", loader_dll_name);
             }
         });
-        init.detach();
 
+        init.detach();
 
     } else {
         logger::info("Detected proxy mode");
