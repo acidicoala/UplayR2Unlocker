@@ -11,7 +11,7 @@ configure_build_config(extra_build_config)
 
 configure_version_resource("https://github.com/acidicoala/UplayR2Unlocker")
 
-set_32_and_64(DLL_INPUT "${RES_DIR}/uplay_r2" "${RES_DIR}/upc_r2_loader64.dll")
+set_32_and_64(DLL_INPUT "${RES_DIR}/uplay_r2.dll" "${RES_DIR}/upc_r2_loader64.dll")
 configure_exports_generator()
 configure_linker_exports(
     "${ORIG_DLL}_o"
