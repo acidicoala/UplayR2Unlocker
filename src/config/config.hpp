@@ -21,6 +21,8 @@ namespace config {
         NLOHMANN_DEFINE_TYPE_INTRUSIVE(Config, logging, lang, auto_fetch, dlcs, items, blacklist)
     };
 
-    Config read(Path path);
+    extern Config instance;
+
+    void init(Path path);
 
 }

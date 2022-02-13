@@ -54,7 +54,7 @@ namespace upc {
 
     DLL_EXPORT(int) UPC_Init(unsigned int version, config::ProductID app_id);
 
-    DLL_EXPORT(LPCSTR) UPC_InstallLanguageGet(void* context);
+    DLL_EXPORT(const char*) UPC_InstallLanguageGet(void* context);
 
     DLL_EXPORT(int) UPC_ProductListFree(void* context, ProductList* inProductList);
 

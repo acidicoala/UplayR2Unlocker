@@ -4,17 +4,18 @@
 #include <fstream>
 
 namespace config {
+    Config instance = {};
 
-    Config read(Path path) { // NOLINT(performance-unnecessary-value-param)
+    void init(const Path path) { // NOLINT(performance-unnecessary-value-param)
         if (not std::filesystem::exists(path)) {
-            return {};
+            return;
         }
 
         try {
             std::ifstream ifs(path);
             nlohmann::json json = nlohmann::json::parse(ifs, nullptr, true, true);
 
-            return json.get<Config>();
+            instance = json.get<Config>();
         } catch (const std::exception& ex) {
             const auto message = fmt::format("Failed to parse config file: {}", ex.what());
             util::error_box("config::read", message);

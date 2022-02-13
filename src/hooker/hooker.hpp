@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 
 namespace hooker {
 

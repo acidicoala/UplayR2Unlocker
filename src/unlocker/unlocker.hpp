@@ -3,13 +3,12 @@
 #include "config/config.hpp"
 #include "upc/upc.hpp"
 
+#include <Windows.h>
+
 namespace unlocker {
-    using namespace config;
-    using namespace upc;
+    using namespace koalabox;
 
     extern HMODULE original_module;
-
-    extern config::Config config;
 
     extern config::ProductID app_id;
 
@@ -19,16 +18,15 @@ namespace unlocker {
 
     void shutdown();
 
-    void add_config_products(Map<ProductID, Product>& products);
+    void add_config_products(Map<config::ProductID, upc::Product>& products);
 
-    void add_fetched_products(Map<ProductID, Product>& products);
+    void add_fetched_products(Map<config::ProductID, upc::Product>& products);
 
     void add_legit_products(
-        Map<ProductID, Product>& products,
-        const ProductList* legit_product_list
+        Map<config::ProductID, upc::Product>& products,
+        const upc::ProductList* legit_product_list
     );
 
-    Vector<Product> get_filtered_products(Map<ProductID, Product>& products);
-
+    Vector<upc::Product> get_filtered_products(Map<config::ProductID, upc::Product>& products);
 
 }

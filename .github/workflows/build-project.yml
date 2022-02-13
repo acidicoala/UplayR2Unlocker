@@ -8,6 +8,7 @@ jobs:
     strategy:
       matrix:
         arch: [ 32, 64 ]
+        config: [ Release ]
         include:
           - arch: 32
             platform: Win32
@@ -20,6 +21,7 @@ jobs:
     env:
       BUILD_DIR: ${{ github.workspace }}\build\${{ matrix.arch }}
       VCPKG_ROOT: ${{ github.workspace }}\vcpkg
+      VCPKG_DISABLE_METRICS: true
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
@@ -45,17 +47,14 @@ jobs:
         with:
           arch: ${{ matrix.term }}
 
-      - name: Generate build files
-        run: cmake -G "Visual Studio 16 2019" -A ${{ matrix.platform }} -B ${{ env.BUILD_DIR }}
-
-      - name: Build the project
-        run: cmake --build ${{ env.BUILD_DIR }} --config Release
+      - name: Generate build files & build the project
+        run: ./build.ps1 ${{ matrix.arch }} ${{ matrix.config }}
 
       - name: Upload the binary file
         uses: actions/upload-artifact@v2
         with:
           name: UplayR2Unlocker-${{ matrix.arch }}
-          path: ${{ env.BUILD_DIR }}\Release\upc*.dll
+          path: ${{ env.BUILD_DIR }}\${{ matrix.config }}\upc*.dll
 
   package-project:
     name: Package the artifacts into a release zip

@@ -121,10 +121,10 @@ DLL_EXPORT(int) UPC_ProductListGet(
     );
 }
 
-DLL_EXPORT(LPCSTR) UPC_InstallLanguageGet(void* context) {
+DLL_EXPORT(const char*) UPC_InstallLanguageGet(void* context) {
     logger::debug(__func__);
 
-    if (unlocker::config.lang == "default") {
+    if (config::instance.lang == "default") {
         static const auto UPC_InstallLanguageGet_o = GET_ORIG_FUNC(UPC_InstallLanguageGet);
         const auto result = UPC_InstallLanguageGet_o(context);
 
@@ -132,9 +132,9 @@ DLL_EXPORT(LPCSTR) UPC_InstallLanguageGet(void* context) {
 
         return result;
     } else {
-        logger::info("🔤 Responding with configured language -> '{}'", unlocker::config.lang);
+        logger::info("🔤 Responding with configured language -> '{}'", config::instance.lang);
 
-        return unlocker::config.lang.c_str();
+        return config::instance.lang.c_str();
     }
 }
 
