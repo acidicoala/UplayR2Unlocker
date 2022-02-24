@@ -1,32 +1,40 @@
 #pragma once
 
-#include "config/config.hpp"
-#include "upc/upc.hpp"
+#include "koalabox/koalabox.hpp"
 
-#include <Windows.h>
+#define GET_ORIGINAL_FUNCTION(FUNC) \
+    static const auto FUNC##_o = hook::get_original_function( \
+        unlocker::is_hook_mode, unlocker::original_library, #FUNC, FUNC \
+    );
 
 namespace unlocker {
     using namespace koalabox;
 
-    extern HMODULE original_module;
+    typedef uint32_t ProductID;
 
-    extern config::ProductID app_id;
+    struct Config {
+        bool logging = false;
+        String lang = "default";
+        bool auto_fetch = true;
+        Set<ProductID> dlcs;
+        Set<ProductID> items;
+        Set<ProductID> blacklist;
 
-    extern bool is_hooker_mode;
+        NLOHMANN_DEFINE_TYPE_INTRUSIVE(Config, logging, lang, auto_fetch, dlcs, items, blacklist)
+    };
 
-    void init(HMODULE module);
+    extern Config config;
+
+    extern HMODULE original_library;
+
+    extern ProductID global_app_id;
+
+    extern bool is_hook_mode;
+
+    void init(const HMODULE& loader_library);
+
+    void post_init();
 
     void shutdown();
-
-    void add_config_products(Map<config::ProductID, upc::Product>& products);
-
-    void add_fetched_products(Map<config::ProductID, upc::Product>& products);
-
-    void add_legit_products(
-        Map<config::ProductID, upc::Product>& products,
-        const upc::ProductList* legit_product_list
-    );
-
-    Vector<upc::Product> get_filtered_products(Map<config::ProductID, upc::Product>& products);
 
 }

@@ -1,12 +1,11 @@
 #pragma once
 
-#include "koalabox/koalabox.hpp"
-#include "config/config.hpp"
+#include "unlocker/unlocker.hpp"
 
 #define DLL_EXPORT(TYPE) extern "C" _declspec(dllexport) TYPE
 
 namespace upc {
-    using namespace koalabox;
+    using namespace unlocker;
 
     enum class ProductType {
         App = 1,
@@ -51,8 +50,7 @@ namespace upc {
         ProductList** out_product_list = nullptr;
     };
 
-
-    DLL_EXPORT(int) UPC_Init(unsigned int version, config::ProductID app_id);
+    DLL_EXPORT(int) UPC_Init(unsigned int version, ProductID app_id);
 
     DLL_EXPORT(const char*) UPC_InstallLanguageGet(void* context);
 

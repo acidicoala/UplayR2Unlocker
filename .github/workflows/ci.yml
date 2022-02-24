@@ -1,0 +1,17 @@
+name: Continuous Integration
+on: push
+
+jobs:
+  ci:
+    name: CI
+    uses: acidicoala/KoalaBox/.github/workflows/build-and-package.yml@fb85e1d30de8d4f9b4525a716b14bbdefbd4f4f4
+    permissions:
+      contents: write
+    with:
+      modules: >-
+        ["UplayR2Unlocker"]
+
+      zip_command: >
+        zip -j $ZIP_NAME
+        artifacts/*/*.dll
+        res/UplayR2Unlocker.jsonc

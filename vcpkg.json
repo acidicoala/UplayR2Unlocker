@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "license": "0BSD",
   "dependencies": [
-    "spdlog",
-    "nlohmann-json",
     "cpr",
-    "polyhook2"
+    "nlohmann-json",
+    "polyhook2",
+    "spdlog"
   ]
 }
