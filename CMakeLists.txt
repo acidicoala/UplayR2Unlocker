@@ -9,8 +9,7 @@ project(UplayR2Unlocker VERSION 3.0.1)
 set_32_and_64(ORIGINAL_DLL upc_r2_loader upc_r2_loader64)
 set_32_and_64(LEGACY_ORIGINAL_DLL uplay_r2_loader uplay_r2_loader64)
 
-set_32_and_64(STORE_DLL upc_r264 upc_r2)
-set_32_and_64(LEGACY_STORE_DLL uplay_r2 uplay_r264)
+set_32_and_64(STORE_DLL uplay_r2 uplay_r264)
 
 configure_version_resource("https://github.com/acidicoala/UplayR2Unlocker")
 
@@ -38,6 +37,8 @@ configure_library(
     ${KOALABOX_SRC_DIR}/koalabox/file_logger/file_logger.cpp
     ${KOALABOX_SRC_DIR}/koalabox/util/util.cpp
     ${KOALABOX_SRC_DIR}/koalabox/win_util/win_util.cpp
+
+    ${LINKER_EXPORTS}
 )
 
 configure_precompile_headers(${CMAKE_PROJECT_NAME} ${SRC_DIR}/pch.hpp)

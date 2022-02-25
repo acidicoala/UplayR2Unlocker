@@ -47,28 +47,24 @@ namespace unlocker {
         if (is_hook_mode) {
             logger->info("🪝 Detected hook mode");
 
-            dll_monitor::init(
-                Vector<String>{ STORE_DLL, LEGACY_STORE_DLL },
-                [](const HMODULE& store_library, const String& library_name) {
-                    hook::init();
+            dll_monitor::init(STORE_DLL, [](const HMODULE& store_library) {
+                hook::init();
 
-                    original_library = store_library;
+                original_library = store_library;
 
-                    DETOUR(store_library, UPC_Init)
-                    DETOUR(store_library, UPC_InstallLanguageGet)
-                    DETOUR(store_library, UPC_ProductListFree)
-                    DETOUR(store_library, UPC_ProductListGet)
+                DETOUR(store_library, UPC_Init)
+                DETOUR(store_library, UPC_InstallLanguageGet)
+                DETOUR(store_library, UPC_ProductListFree)
+                DETOUR(store_library, UPC_ProductListGet)
 
-                    logger->info("Hooking complete");
+                logger->info("Hooking complete");
 
-                    dll_monitor::shutdown();
-                }
-            );
+                dll_monitor::shutdown();
+            });
         } else {
             logger->info("🔀 Detected proxy mode");
 
-            const auto self_name = is_not_legacy_dll ? ORIGINAL_DLL : LEGACY_ORIGINAL_DLL;
-            original_library = loader::load_original_library(self_directory, self_name);
+            original_library = loader::load_original_library(self_directory, ORIGINAL_DLL);
         }
 
         logger->info("🚀 Initialization complete");
