@@ -1,5 +1,5 @@
 {
-  "logging": true,
+  "logging": false,
   "lang": "default",
   "auto_fetch": true,
   "dlcs": [],

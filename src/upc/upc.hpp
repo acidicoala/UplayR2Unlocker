@@ -4,7 +4,6 @@
 
 #define DLL_EXPORT(TYPE) extern "C" _declspec(dllexport) TYPE
 
-namespace upc {
     using namespace unlocker;
 
     enum class ProductType {
@@ -50,19 +49,17 @@ namespace upc {
         ProductList** out_product_list = nullptr;
     };
 
-    DLL_EXPORT(int) UPC_Init(unsigned int version, ProductID app_id);
+DLL_EXPORT(int) UPC_Init(unsigned int version, ProductID app_id);
 
-    DLL_EXPORT(const char*) UPC_InstallLanguageGet(void* context);
+DLL_EXPORT(const char*) UPC_InstallLanguageGet(void* context);
 
-    DLL_EXPORT(int) UPC_ProductListFree(void* context, ProductList* inProductList);
+DLL_EXPORT(int) UPC_ProductListFree(void* context, ProductList* inProductList);
 
-    DLL_EXPORT(int) UPC_ProductListGet(
-        void* context,
-        const char* inOptUserIdUtf8,
-        unsigned int inFilter,
-        ProductList** outProductList,
-        UplayCallback inCallback,
-        void* inCallbackData
-    );
-
-}
+DLL_EXPORT(int) UPC_ProductListGet(
+    void* context,
+    const char* inOptUserIdUtf8,
+    unsigned int inFilter,
+    ProductList** outProductList,
+    UplayCallback inCallback,
+    void* inCallbackData
+);

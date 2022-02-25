@@ -37,8 +37,6 @@ namespace unlocker {
 
         logger->info("🐨 {} 🔓 v{}", PROJECT_NAME, PROJECT_VERSION);
 
-        // Determine the unlocker mode to use (proxy vs hooker)
-
         const auto module_path = win_util::get_module_file_name(self_module);
 
         is_hook_mode = hook::is_hook_mode(self_module, ORIGINAL_DLL);
@@ -53,7 +51,7 @@ namespace unlocker {
 
                     hook::init();
 
-                    DETOUR(loader_library, upc::UPC_Init)
+                    DETOUR(loader_library, UPC_Init)
 
                     dll_monitor::shutdown();
                 }
@@ -73,19 +71,19 @@ namespace unlocker {
         dll_monitor::init(
             Vector<String>{ STORE_DLL, LEGACY_STORE_DLL },
             [](const HMODULE& store_library, const String& library_name) {
-                DETOUR(store_library, upc::UPC_InstallLanguageGet)
-                DETOUR(store_library, upc::UPC_ProductListFree)
-                DETOUR(store_library, upc::UPC_ProductListGet)
+                DETOUR(store_library, UPC_InstallLanguageGet)
+                DETOUR(store_library, UPC_ProductListFree)
+                DETOUR(store_library, UPC_ProductListGet)
 
-                logger->info("Hooker initialization complete");
+                dll_monitor::shutdown();
+
+                logger->info("Hooking complete");
             }
         );
     }
 
     void shutdown() {
-        if (is_hook_mode) {
-            dll_monitor::shutdown();
-        } else {
+        if (not is_hook_mode) {
             win_util::free_library(original_library);
         }
 
