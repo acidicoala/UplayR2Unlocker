@@ -2,11 +2,6 @@
 
 #include "koalabox/koalabox.hpp"
 
-#define GET_ORIGINAL_FUNCTION(FUNC) \
-    static const auto FUNC##_o = hook::get_original_function( \
-        unlocker::is_hook_mode, unlocker::original_library, #FUNC, FUNC \
-    );
-
 namespace unlocker {
     using namespace koalabox;
 

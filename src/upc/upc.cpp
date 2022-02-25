@@ -1,6 +1,10 @@
 #include "upc.hpp"
 
-#include "koalabox/util/util.hpp"
+#define GET_ORIGINAL_FUNCTION(FUNC) \
+    static const auto FUNC##_o = hook::get_original_function( \
+        unlocker::is_hook_mode, unlocker::original_library, #FUNC, FUNC \
+    );
+
 
 String Product::get_type_string() const {
     switch (type) {
@@ -76,7 +80,7 @@ void add_fetched_products(Map<ProductID, Product>& products) {
 }
 
 void add_legit_products(Map<ProductID, Product>& products, const ProductList* legit_product_list) {
-    logger->debug("Original product list contains {} elements:", legit_product_list->length);
+    logger->info("Original product list contains {} elements:", legit_product_list->length);
 
     Vector<Product*> missing_products;
 
@@ -129,7 +133,7 @@ Vector<Product> get_filtered_products(Map<ProductID, Product>& products) {
             filtered_products.push_back(product);
         }
 
-        logger->info(
+        logger->debug(
             "  {} ID: {}, Type: {}",
             included ? "✅" : "❌", id, product.get_type_string()
         );
@@ -161,11 +165,6 @@ DLL_EXPORT(int) UPC_Init(unsigned int version, ProductID app_id) {
     const auto result = UPC_Init_o(version, app_id);
 
     logger->debug("{} result: {}", __func__, result);
-
-    // Store R2 DLL is loaded at this point, so we can hook its functions now
-    if (is_hook_mode) {
-        post_init();
-    }
 
     return result;
 }

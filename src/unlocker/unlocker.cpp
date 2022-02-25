@@ -39,19 +39,27 @@ namespace unlocker {
 
         const auto module_path = win_util::get_module_file_name(self_module);
 
-        is_hook_mode = hook::is_hook_mode(self_module, ORIGINAL_DLL);
+        const auto is_not_original_dll = hook::is_hook_mode(self_module, ORIGINAL_DLL);
+        const auto is_not_legacy_dll = hook::is_hook_mode(self_module, LEGACY_ORIGINAL_DLL);
+
+        is_hook_mode = is_not_original_dll and is_not_legacy_dll;
 
         if (is_hook_mode) {
-            logger->info("🪝 Detected hook mode"); // New hook emoji:
+            logger->info("🪝 Detected hook mode");
 
             dll_monitor::init(
-                Vector<String>{ ORIGINAL_DLL, LEGACY_ORIGINAL_DLL },
-                [](const HMODULE& loader_library, const String& library_name) {
-                    original_library = loader_library;
-
+                Vector<String>{ STORE_DLL, LEGACY_STORE_DLL },
+                [](const HMODULE& store_library, const String& library_name) {
                     hook::init();
 
-                    DETOUR(loader_library, UPC_Init)
+                    original_library = store_library;
+
+                    DETOUR(store_library, UPC_Init)
+                    DETOUR(store_library, UPC_InstallLanguageGet)
+                    DETOUR(store_library, UPC_ProductListFree)
+                    DETOUR(store_library, UPC_ProductListGet)
+
+                    logger->info("Hooking complete");
 
                     dll_monitor::shutdown();
                 }
@@ -59,27 +67,11 @@ namespace unlocker {
         } else {
             logger->info("🔀 Detected proxy mode");
 
-            original_library = loader::load_original_library(self_directory, ORIGINAL_DLL);
+            const auto self_name = is_not_legacy_dll ? ORIGINAL_DLL : LEGACY_ORIGINAL_DLL;
+            original_library = loader::load_original_library(self_directory, self_name);
         }
 
         logger->info("🚀 Initialization complete");
-    }
-
-    void post_init() {
-        logger->debug("Unlocker post-initialization");
-
-        dll_monitor::init(
-            Vector<String>{ STORE_DLL, LEGACY_STORE_DLL },
-            [](const HMODULE& store_library, const String& library_name) {
-                DETOUR(store_library, UPC_InstallLanguageGet)
-                DETOUR(store_library, UPC_ProductListFree)
-                DETOUR(store_library, UPC_ProductListGet)
-
-                dll_monitor::shutdown();
-
-                logger->info("Hooking complete");
-            }
-        );
     }
 
     void shutdown() {
