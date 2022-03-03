@@ -4,7 +4,7 @@ on: push
 jobs:
   ci:
     name: CI
-    uses: acidicoala/KoalaBox/.github/workflows/build-and-package.yml@20f7cea69cc14dcf98d18cfc6fcd0e070aa286b6
+    uses: acidicoala/KoalaBox/.github/workflows/build-and-package.yml@dd39f6c5a6c945ae1b8face240d7735833765460
     permissions:
       contents: write
     with:
@@ -14,4 +14,3 @@ jobs:
       zip_command: >
         zip -j $ZIP_NAME
         artifacts/*/*.dll
-        res/UplayR2Unlocker.jsonc

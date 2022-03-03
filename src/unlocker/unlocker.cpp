@@ -9,9 +9,9 @@
 #include <build_config.h>
 
 #define DETOUR(MODULE, FUNC) \
-    hook::detour_or_throw( \
+    hook::detour( \
         MODULE, \
-        loader::get_undecorated_function(original_library, #FUNC), \
+        loader::get_undecorated_function(MODULE, #FUNC), \
         reinterpret_cast<FunctionPointer>(FUNC) \
     );
 
