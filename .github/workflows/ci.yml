@@ -4,7 +4,7 @@ on: push
 jobs:
   ci:
     name: CI
-    uses: acidicoala/KoalaBox/.github/workflows/build-and-package.yml@da1db72f2ebf0a2b8b0138931e1f02b6c8a44500
+    uses: acidicoala/KoalaBox/.github/workflows/build-and-package.yml@db2ee8fa2074b05f8d876f54e2a36486d0e69258
     permissions:
       contents: write
     with:
