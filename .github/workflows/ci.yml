@@ -14,3 +14,5 @@ jobs:
       zip_command: >
         zip -j $ZIP_NAME
         artifacts/*/*.dll
+
+      config: Debug
